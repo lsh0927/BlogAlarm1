@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <h1>게시물 상세 정보</h1>
+
+    <div>
+        <p>ID: <span th:text="${post.id}"></span></p>
+        <p>Title: <span th:text="${post.title}"></span></p>
+        <p>Content: <span th:text="${post.content}"></span></p>
+    </div>
+
+    <a class="btn btn-primary" th:href="@{'/posts/edit/' + ${post.id}}">Edit</a>
+    <a class="btn btn-danger" th:href="@{'/posts/delete/' + ${post.id}}">Delete</a>
+
+    <!-- Add a button or link for returning home -->
+    <a class="btn btn-primary" th:href="@{/static}" role="button">홈으로 이동</a>
+
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>

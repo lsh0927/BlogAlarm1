@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <h1>새로운 게시물 생성</h1>
+
+    <form method="post" th:action="@{/posts/create}" th:object="${postForm}">
+        <div>
+            <label for="title">제목</label>
+            <input type="text" th:field="*{title}" required="required" />
+        </div>
+        <div>
+            <label for="content">내용</label>
+            <textarea th:field="*{content}" required="required"></textarea>
+        </div>
+        <div>
+            <button class="btn btn-primary" type="submit">생성</button>
+        </div>
+    </form>
+
+    <!-- Add a button or link for returning home -->
+    <a class="btn btn-primary" th:href="@{/static}" role="button">홈으로 이동</a>
+
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>

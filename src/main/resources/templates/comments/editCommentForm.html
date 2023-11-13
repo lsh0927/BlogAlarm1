@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <h1>댓글 수정</h1>
+
+    <form method="post" th:action="@{'/comments/edit/' + ${commentForm.commentId}}">
+        <div>
+            <label for="text">댓글 내용</label>
+            <textarea th:field="*{text}" required="required"></textarea>
+        </div>
+        <div>
+            <button class="btn btn-primary" type="submit">댓글 수정</button>
+        </div>
+    </form>
+
+    <!-- Add a button or link for returning home -->
+    <a class="btn btn-primary" th:href="@{/static}" role="button">홈으로 이동</a>
+
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>

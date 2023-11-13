@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <h1>댓글 목록</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>내용</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="comment : ${comments}">
+            <td th:text="${comment.id}"></td>
+            <td th:text="${comment.text}"></td>
+            <td>
+                <a th:href="@{'/comments/' + ${comment.id}}">View</a>
+                <a th:href="@{'/comments/edit/' + ${comment.id}}">Edit</a>
+                <a th:href="@{'/comments/delete/' + ${comment.id}}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Add a button or link for returning home -->
+    <a class="btn btn-primary" th:href="@{/static}" role="button">홈으로 이동</a>
+
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>
