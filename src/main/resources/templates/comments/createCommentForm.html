@@ -11,13 +11,24 @@
             <label for="text">댓글 내용</label>
             <textarea th:field="*{text}" required="required"></textarea>
         </div>
+
+        <div>
+            <label for="postId">포스트 ID</label>
+            <input type="text" th:field="*{postId}" />
+        </div>
+
+        <div>
+            <label for="commentId">댓글 ID</label>
+            <input type="text" th:field="*{commentId}" />
+        </div>
+
         <div>
             <button class="btn btn-primary" type="submit">댓글 추가</button>
         </div>
     </form>
 
     <!-- Add a button or link for returning home -->
-    <a class="btn btn-primary" th:href="@{/static}" role="button">홈으로 이동</a>
+    <a class="btn btn-primary" th:href="@{/home}" role="button">홈으로 이동</a>
 
     <div th:replace="fragments/footer :: footer" />
 </div> <!-- /container -->

@@ -1,22 +1,24 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header">
-    <title>Hello</title>
+<!-- 새로운 방식 - Recommended -->
+<head th:replace="~{fragments/header :: header}">
+    <title>블로그 홈</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader" />
-    <div class="jumbotron"> <h1>HELLO SHOP</h1>
-        <p class="lead">회원 기능</p> <p>
-            <a class="btn btn-lg btn-secondary" href="/members/new">회원 가입</a>
-            <a class="btn btn-lg btn-secondary" href="/members">회원 목록</a> </p>
-        <p class="lead">상품 기능</p> <p>
-            <a class="btn btn-lg btn-dark" href="/items/new">상품 등록</a>
-            <a class="btn btn-lg btn-dark" href="/items">상품 목록</a> </p>
-        <p class="lead">주문 기능</p> <p>
-            <a class="btn btn-lg btn-info" href="/order">상품 주문</a>
-            <a class="btn btn-lg btn-info" href="/orders">주문 내역</a> </p>
+    <div class="jumbotron">
+        <h1>블로그</h1>
+        <p class="lead">새로운 글을 작성하거나 다른 글을 읽어보세요.</p>
+
+        <p>
+            <a class="btn btn-lg btn-success" href="/members/new">회원 가입</a>
+        </p>
+
+        <p>
+            <a class="btn btn-lg btn-warning" th:href="@{/login}">로그인</a>
+        </p>
     </div>
     <div th:replace="fragments/footer :: footer" />
 </div> <!-- /container -->

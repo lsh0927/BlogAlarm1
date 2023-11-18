@@ -9,15 +9,18 @@
     <form method="post" th:action="@{'/comments/edit/' + ${commentForm.commentId}}">
         <div>
             <label for="text">댓글 내용</label>
-            <textarea th:field="*{text}" required="required"></textarea>
+            <!-- 수정된 부분: th:field 대신 name을 사용하고, value에는 commentForm.text를 직접 사용 -->
+            <textarea name="text" required="required" th:value="${commentForm.text}"></textarea>
         </div>
         <div>
+            <!-- postId 필드 추가 -->
+            <input type="hidden" name="postId" th:value="${commentForm.postId}" />
             <button class="btn btn-primary" type="submit">댓글 수정</button>
         </div>
     </form>
 
     <!-- Add a button or link for returning home -->
-    <a class="btn btn-primary" th:href="@{/static}" role="button">홈으로 이동</a>
+    <a class="btn btn-primary" th:href="@{/home}" role="button">홈으로 이동</a>
 
     <div th:replace="fragments/footer :: footer" />
 </div> <!-- /container -->

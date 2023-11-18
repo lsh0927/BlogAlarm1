@@ -1,50 +1,58 @@
 package com.example.blogalarm.service;
 
-import com.example.blogalarm.domain.Commit;
-import com.example.blogalarm.repository.CommitRepository;
+import com.example.blogalarm.domain.Comment;
+import com.example.blogalarm.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class CommitServiceImpl implements CommitService {
+public class CommentServiceImpl implements CommentService {
 
-    private final CommitRepository commitRepository;
+    private final CommentRepository commentRepository;
 
     @Autowired
-    public CommitServiceImpl(CommitRepository commitRepository) {
-        this.commitRepository = commitRepository;
+    public CommentServiceImpl(CommentRepository commentRepository, ApplicationEventPublisher eventPublisher) {
+        this.commentRepository = commentRepository;
     }
 
+
+    // 포스트에 대한 댓글을 가져오는 로직 구현
     @Override
-    public List<Commit> getCommitsForPost(Long postId) {
-        // Implement the logic to get comments for a specific post
-        return commitRepository.findAllByPostId(postId);
+    public List<Comment> getCommentsForPost(Long postId) {
+        return commentRepository.findAllByPostId(postId);
     }
 
+
+    //댓글 목록을 보여주는 로직 구현
     @Override
-    public List<Commit> getAllCommits() {
-        return commitRepository.findAll();
+    public List<Comment> getAllComments() {
+        return commentRepository.findAll();
     }
 
+    //Id로 댓글 찾기 기능
     @Override
-    public Commit getCommitById(Long id) {
-        return commitRepository.findById(id).orElse(null);
+    public Comment getCommentById(Long id) {
+        return commentRepository.findById(id).orElse(null);
     }
 
+    //댓글 저장
     @Override
-    public void saveCommit(Commit comment) {
-        commitRepository.save(comment);
+    public void saveComment(Comment comment) {
+        commentRepository.save(comment);
     }
 
+    //댓글 수정
     @Override
-    public void updateCommit(Commit comment) {
-        commitRepository.save(comment);
+    public void updateComment(Comment comment) {
+        commentRepository.save(comment);
     }
 
+    //댓글 삭제
     @Override
-    public void deleteCommit(Long id) {
-        commitRepository.deleteById(id);
+    public void deleteComment(Long id) {
+        commentRepository.deleteById(id);
     }
 }

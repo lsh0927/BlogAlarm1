@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header">
+<!-- 새로운 방식 - Recommended -->
+<head th:replace="~{fragments/header :: header}">
     <title>로그인</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
@@ -10,19 +11,20 @@
 
     <h1>로그인</h1>
 
-    <form method="post" th:action="@{/templates/login}">
+    <form method="post" th:action="@{/home}" th:object="${loginForm}">
         <div class="form-group">
             <label for="nickname">닉네임</label>
-            <input type="text" id="nickname" name="nickname" class="form-control" required />
+            <input type="text" id="nickname" th:field="*{nickname}" class="form-control" required />
         </div>
 
         <div class="form-group">
             <label for="password">비밀번호</label>
-            <input type="password" id="password" name="password" class="form-control" required />
+            <input type="password" id="password" th:field="*{password}" class="form-control" required />
         </div>
 
         <button type="submit" class="btn btn-primary">로그인</button>
     </form>
+
 </div> <!-- /container -->
 </body>
 </html>
