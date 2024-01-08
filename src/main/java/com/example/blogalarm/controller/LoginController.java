@@ -77,18 +77,21 @@ public class LoginController {
             "사용자 정보를 이용하여 서비스에 회원가입합니다.")
     @GetMapping("/kakaocallback")
     @ResponseBody
-    public String kakaoOauth(@RequestParam("code") String code) {
+    public String kakaoOauth(@RequestParam("code") String code, HttpSession httpSession) {
         log.info("인가 코드를 이용하여 토큰을 받습니다.");
         KakaoTokenResponse kakaoTokenResponse = kakaoTokenJsonData.getToken(code);
         log.info("토큰에 대한 정보입니다.{}",kakaoTokenResponse);
         KakaoUserInfoResponse userInfo = kakaoUserInfo.getUserInfo(kakaoTokenResponse.getAccess_token());
         log.info("회원 정보 입니다.{}",userInfo);
 
-        String  userEmailInfo = userService.createUser(userInfo.getKakao_account().getEmail());
+        String userEmail = userInfo.getKakao_account().getEmail();
 
-        SignupRequestDto dto=
+        // 현재 로그인한 사용자의 ID 가져오기
+        Long currentMemberId = (Long) httpSession.getAttribute("memberId");
 
-        memberService.createMemberWithUserInfo()
+        // 현재 로그인한 사용자의 이메일 정보 업데이트
+        memberService.updateEmail(currentMemberId, userEmail);
+
         return "okay";
     }
 }

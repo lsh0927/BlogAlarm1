@@ -32,6 +32,18 @@
             return member.getId();
         }
 
+        //이메일만 추가하는 메서드
+        @Transactional
+        public void updateEmail(Long memberId, String email) {
+            Member member = memberRepository.findOne(memberId);
+            if (member != null) {
+                member.setEmail(email);
+            } else {
+                // 적절한 예외 처리
+                throw new RuntimeException("회원을 찾을 수 없습니다: ID " + memberId);
+            }
+        }
+
         @Transactional
         public Long createMemberWithUserInfo(String email, String nickname, int password) {
             // Member 객체 생성
