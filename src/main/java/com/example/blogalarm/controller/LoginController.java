@@ -22,11 +22,16 @@ public class LoginController {
         this.memberService = memberService;
     }
 
+
+
     // 로그인 폼으로 이동
     @GetMapping("/login")
     public String loginForm(Model model) {
         model.addAttribute("loginForm", new LoginForm());
-        return "login/loginForm"; // 로그인 폼 템플릿 이름
+        return "/login/loginForm"; // 로그인 폼 템플릿 이름
+
+        //로그인 API 호출
+
     }
 
     // LoginController 클래스의 login 메서드
@@ -37,8 +42,7 @@ public class LoginController {
         if (member != null) {
             // 회원 정보가 일치하면 로그인 성공
             session.setAttribute("loggedInMember", member);
-            // TODO : /redirect:home2 와 그냥 home2는 뭐가 다른겨?
-
+            // TODO : /redirect:home2 와 그냥 home2는 뭐가 다른지?
 
             return  "/home2";
         } else {
@@ -46,6 +50,7 @@ public class LoginController {
             return "login/loginForm";
         }
     }
+
 
     @GetMapping("/home")
     public String page(Model model) {

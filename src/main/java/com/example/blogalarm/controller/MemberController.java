@@ -1,5 +1,7 @@
 package com.example.blogalarm.controller;
 
+import com.example.blogalarm.api.user.*;
+import com.example.blogalarm.api.user.Dto.SignupRequestDto;
 import com.example.blogalarm.domain.Member;
 import com.example.blogalarm.form.MemberForm;
 import com.example.blogalarm.service.MemberService;
@@ -16,25 +18,39 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
+    private final UserService userService;
+    private final BlogMemberService blogMemberService;
+    private final BlogMemberRepositoryImpl blogMemberRepository;
+
+
+
 
     @GetMapping("/members/new")
     public String createForm(Model model){
         model.addAttribute("memberForm", new MemberForm());
         return "members/createMemberForm";
+        //기본 회원 가입 로직에 카카오 이메일까지 함께 받도록
     }
 
 
     @PostMapping("/members/new")
-    public String createMember(MemberForm memberForm) {
+    public String createMember(MemberForm memberForm,String userEmail) {
         // MemberForm을 Member 엔티티로 변환
         Member member = new Member();
-        member.setNickname(memberForm.getNickname()); // 'name' 대신 'nickname'을 사용합니다.
-
+        member.setNickname(memberForm.getNickname()); // 'name' 대신 'nickname' 을 사용합니다.
         // 나머지 Member 엔티티의 필드도 설정
         member.setPassword(memberForm.getPassword());
 
+        SignupRequestDto signupRequestDto = new SignupRequestDto();
+        signupRequestDto.setNickname(member.getNickname());
+        signupRequestDto.setPassword(member.getPassword());
+
+        User user= userService.getUserByEmail(userEmail);
+        signupRequestDto.setEmail(user.getEmail());
+
         // 회원 저장
         memberService.join(member);
+        blogMemberService.createBlogMember(signupRequestDto);
 
         // 회원 목록으로 리다이렉트
         return "redirect:/";
@@ -45,6 +61,9 @@ public class MemberController {
         List<Member> members = memberService.findMembers(); // 모든 회원 정보를 가져옴
         model.addAttribute("members", members);
         return "members/memberList"; // 회원 목록을 보여줄 템플릿 이름
+
+        //여기서 부터 모든 멤버를 블로그 멤버로 바꿔서 행동하도록 바꿔야 함?
+
     }
 
 
@@ -65,11 +84,9 @@ public class MemberController {
         MemberForm memberForm = new MemberForm();
         memberForm.setNickname(member.getNickname());
         model.addAttribute("memberForm", memberForm);
-
         model.addAttribute("member", member);
         return "members/editMemberForm";
     }
-
 
 
     @PostMapping("/members/edit/{memberId}")
@@ -83,11 +100,13 @@ public class MemberController {
         Member member = new Member();
         member.setId(memberId); // 기존 회원의 ID를 설정
 
+
         // 업데이트할 필드 설정
         member.setNickname(memberForm.getNickname());
         member.setPassword(memberForm.getPassword());
         memberService.update(memberId, member.getNickname(), memberForm.getPassword()); // 회원 정보 수정 서비스 호출
         return "redirect:/members/memberList"; // 회원 목록 페이지로 리다이렉트
     }
-
 }
+
+

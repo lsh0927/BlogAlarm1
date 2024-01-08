@@ -24,6 +24,7 @@ public class Member {
     @Column(length = 6)
     private int password;
 
+    private String email;
 
     //멤버와 댓글,포스트간 연관관계 매핑
     @OneToMany(mappedBy = "member")

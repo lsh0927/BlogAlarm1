@@ -29,16 +29,6 @@ public class MemberRepositoryImpl {
                 .getResultList();
     }
 
-//    public List<Member> findByNickname(String nickname) {
-//        return em.createQuery("select m from Member m where m.nickname = :nickname", Member.class)
-//                .setParameter("nickname", nickname)
-//                .getResultList();
-//    }
-//
-//    public Optional<Member> findById(Long id) {
-//        Member member = em.find(Member.class, id);
-//        return Optional.ofNullable(member);
-//    }
 
     public Optional<Member> findByUsername(String username) {
         List<Member> result = em.createQuery("select m from Member m where m.nickname = :username", Member.class)

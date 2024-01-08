@@ -22,16 +22,32 @@
         private final MemberRepositoryImpl memberRepository;
 
         /*
-        * 회원가입
+        * 회원가입 (API 적용전)
         */
         @Transactional
         public Long join(Member member){
 
             validateDuplicateMember(member);
-
             memberRepository.save(member);
             return member.getId();
         }
+
+        @Transactional
+        public Long createMemberWithUserInfo(String email, String nickname, int password) {
+            // Member 객체 생성
+            Member member = new Member();
+            member.setNickname(nickname);
+            member.setPassword(password);
+            member.setEmail(email);
+
+            // 중복 회원 검증
+            validateDuplicateMember(member);
+
+            // 회원 저장
+            memberRepository.save(member);
+            return member.getId();
+        }
+
         //중복회원 검증
         private void validateDuplicateMember(Member member) {
             Optional<Member> findMembers = memberRepository.findByUsername(member.getNickname());
@@ -39,9 +55,6 @@
                 throw new IllegalStateException("이미 존재하는 회원입니다.");
             }
         }
-
-
-
         //회원 전체 조회
         public List<Member> findMembers() {
             return memberRepository.findAll();
@@ -67,14 +80,12 @@
         // MemberService의 login 메서드 변경
 
 
-
         public Member login(LoginForm loginForm, HttpServletRequest request) {
             String nickname = loginForm.getNickname();
             int password = loginForm.getPassword();
 
             //loginForm의 닉네임 패스워드와 저장된 정보가 같은지 확인
             Optional<Member> members = memberRepository.findByUsername(nickname);
-
 
             if (!members.isEmpty()) {
                 Member member = members.get();
@@ -91,7 +102,6 @@
             System.out.println("멤버가 없는데욤?");
             return null;
         }
-
 
 
         public Member getLoggedInMember(HttpServletRequest request) {

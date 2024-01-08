@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Test</title>
+</head>
+
+<body>
+<main>
+  <section>
+    <button id="sign-up">Sign Up</button>
+    <script lang="javascript">
+      console.log('Sign Up');
+      document.getElementById('sign-up').addEventListener('click', () => {
+        fetch('/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: window.prompt('id'),
+            name: window.prompt('name'),
+            password: window.prompt('password'),
+          })
+        })
+                .then((res) => res.json())
+                .then((data) => console.log(data))
+                .catch((err) => console.log(err))
+      });
+    </script>
+  </section>
+  <section>
+    <button id="login">Login</button>
+    <p id="jwt">Access Token</p>
+    <script lang="javascript">
+      console.log('Login');
+      document.getElementById('login').addEventListener('click', () => {
+        fetch('/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            id: window.prompt('id'),
+            password: window.prompt('password'),
+          })
+        })
+                .then((res) => res.text())
+                .then((data) => {
+                  console.log(data);
+                  document.getElementById('jwt').innerText = data;
+                })
+                .catch((err) => console.log(err))
+      });
+    </script>
+  </section>
+  <section>
+    <button id="get-posts">Get Posts</button>
+    <section id="posts"></section>
+    <script lang="javascript">
+      console.log('Get Posts');
+      document.getElementById('get-posts').addEventListener('click', () => {
+        fetch('/posts', {
+          headers: { 'Authorization': `Bearer ${document.getElementById('jwt').innerText}` },
+        })
+                .then((res) => res.json())
+                .then((data) => {
+                  console.log(data);
+                  document.getElementById('posts').innerHTML = data.map((post) => `<article>${post.id} / ${post.title} / ${post.content}</article>`).join('');
+                })
+                .catch((err) => console.log(err))
+      });
+    </script>
+  </section>
+  <section>
+    <button id="write-post">Write Post</button>
+    <script lang="javascript">
+      console.log('Write Post');
+      document.getElementById('write-post').addEventListener('click', () => {
+        fetch('/posts', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${document.getElementById('jwt').innerText}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            title: window.prompt('title'),
+            content: window.prompt('content'),
+          })
+        })
+                .then((res) => res.json())
+                .then((data) => console.log(data))
+                .catch((err) => console.log(err))
+      });
+    </script>
+  </section>
+</main>
+</body>
+
+</html>

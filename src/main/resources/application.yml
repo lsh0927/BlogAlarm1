@@ -1,6 +1,7 @@
 spring:
   thymeleaf:
     prefix:
+      - classpath:/static/
       - classpath:/templates/members/
       - classpath:/templates/fragments
       - classpath:/templates/login/
