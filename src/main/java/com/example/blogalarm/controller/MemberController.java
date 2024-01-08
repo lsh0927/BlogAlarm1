@@ -19,8 +19,7 @@ import java.util.List;
 public class MemberController {
     private final MemberService memberService;
     private final UserService userService;
-    private final BlogMemberService blogMemberService;
-    private final BlogMemberRepositoryImpl blogMemberRepository;
+
 
 
 
@@ -43,9 +42,6 @@ public class MemberController {
         member.setNickname(memberForm.getNickname()); // 'name' 대신 'nickname' 을 사용합니다.
         // 나머지 Member 엔티티의 필드도 설정
         member.setPassword(memberForm.getPassword());
-//        SignupRequestDto signupRequestDto = new SignupRequestDto();
-//        signupRequestDto.setNickname(member.getNickname());
-//        signupRequestDto.setPassword(member.getPassword());
 
 
 
@@ -65,9 +61,9 @@ public class MemberController {
         // 회원 저장
         memberService.join(member);
 
-        //blogMemberService.createBlogMember(signupRequestDto);
 
-        // 회원 목록으로 리다이렉트
+
+        // 회원 목록으로 리다이렉트 -> 회원가입/로그인 중 택 1로 선택하는 페이지
         return "redirect:/";
     }
 

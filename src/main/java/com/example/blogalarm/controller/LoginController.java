@@ -1,26 +1,36 @@
 package com.example.blogalarm.controller;
 
+import com.example.blogalarm.api.user.Dto.KakaoTokenResponse;
+import com.example.blogalarm.api.user.Dto.KakaoUserInfoResponse;
+import com.example.blogalarm.api.user.Dto.SignupRequestDto;
+import com.example.blogalarm.api.user.UserService;
+import com.example.blogalarm.api.utils.KakaoTokenJsonData;
+import com.example.blogalarm.api.utils.KakaoUserInfo;
 import com.example.blogalarm.domain.Member;
 import com.example.blogalarm.form.LoginForm;
 import com.example.blogalarm.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Description;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.*;
 
+
+@RequiredArgsConstructor
+@Slf4j
 @Controller
+
 public class LoginController {
 
     private final MemberService memberService;
+    private final KakaoTokenJsonData kakaoTokenJsonData;
+    private final KakaoUserInfo kakaoUserInfo;
+    private final UserService userService;
 
-    @Autowired
-    public LoginController(MemberService memberService) {
-        this.memberService = memberService;
-    }
 
 
 
@@ -30,7 +40,7 @@ public class LoginController {
         model.addAttribute("loginForm", new LoginForm());
         return "/login/loginForm"; // 로그인 폼 템플릿 이름
 
-        //로그인 API 호출
+        //로그인 API 호출(html 코드에 /home 으로 post요청을 하도록되어 있음
 
     }
 
@@ -58,4 +68,27 @@ public class LoginController {
     }
 
 
+//    @GetMapping("/index")
+//    public String index() {
+//        return "login/loginformm";
+//    }
+
+    @Description("회원이 소셜 로그인을 마치면 자동으로 실행되는 API입니다. 인가 코드를 이용해 토큰을 받고, 해당 토큰으로 사용자 정보를 조회합니다." +
+            "사용자 정보를 이용하여 서비스에 회원가입합니다.")
+    @GetMapping("/kakaocallback")
+    @ResponseBody
+    public String kakaoOauth(@RequestParam("code") String code) {
+        log.info("인가 코드를 이용하여 토큰을 받습니다.");
+        KakaoTokenResponse kakaoTokenResponse = kakaoTokenJsonData.getToken(code);
+        log.info("토큰에 대한 정보입니다.{}",kakaoTokenResponse);
+        KakaoUserInfoResponse userInfo = kakaoUserInfo.getUserInfo(kakaoTokenResponse.getAccess_token());
+        log.info("회원 정보 입니다.{}",userInfo);
+
+        String  userEmailInfo = userService.createUser(userInfo.getKakao_account().getEmail());
+
+        SignupRequestDto dto=
+
+        memberService.createMemberWithUserInfo()
+        return "okay";
+    }
 }
