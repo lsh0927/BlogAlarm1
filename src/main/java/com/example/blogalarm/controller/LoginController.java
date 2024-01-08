@@ -12,6 +12,7 @@ import com.example.blogalarm.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Description;
@@ -77,7 +78,7 @@ public class LoginController {
             "사용자 정보를 이용하여 서비스에 회원가입합니다.")
     @GetMapping("/kakaocallback")
     @ResponseBody
-    public String kakaoOauth(@RequestParam("code") String code, HttpSession httpSession) {
+    public String kakaoOauth(@RequestParam("code") String code,HttpServletRequest request) {
         log.info("인가 코드를 이용하여 토큰을 받습니다.");
         KakaoTokenResponse kakaoTokenResponse = kakaoTokenJsonData.getToken(code);
         log.info("토큰에 대한 정보입니다.{}",kakaoTokenResponse);
@@ -85,13 +86,24 @@ public class LoginController {
         log.info("회원 정보 입니다.{}",userInfo);
 
         String userEmail = userInfo.getKakao_account().getEmail();
+        HttpSession session = request.getSession();
 
-        // 현재 로그인한 사용자의 ID 가져오기
-        Long currentMemberId = (Long) httpSession.getAttribute("memberId");
+        log.info("세션 정보.",session.getId());
+        String currentNickname = (String) session.getAttribute("nickname");
+        Member currentMember = memberService.getMemberByNickname(currentNickname);
+        Long currentMemberId= currentMember.getId();
 
-        // 현재 로그인한 사용자의 이메일 정보 업데이트
-        memberService.updateEmail(currentMemberId, userEmail);
 
+        if (currentMember != null) {
+            // Member 객체에 이메일 정보 업데이트
+
+            memberService.updateEmail(currentMemberId, userEmail);
+
+        } else {
+            // 적절한 오류 처리
+            log.error("현재 로그인한 사용자의 Member 객체를 찾을 수 없습니다.");
+            return "현재 로그인한 사용자 정보를 찾을 수 없습니다.";
+        }
         return "okay";
     }
 }
