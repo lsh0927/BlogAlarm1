@@ -33,7 +33,6 @@ import reactor.core.publisher.Flux;
 public class KakaoUserInfo {
     private final WebClient webClient;
     private static final String USER_INFO_URI=  "https://kapi.kakao.com/v2/user/me";
-    //유저 URI는 수정이 필요함
 
     public KakaoUserInfoResponse getUserInfo(String token){
         String uri= USER_INFO_URI;

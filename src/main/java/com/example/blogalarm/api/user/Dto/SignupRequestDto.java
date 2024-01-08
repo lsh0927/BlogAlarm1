@@ -3,24 +3,25 @@ package com.example.blogalarm.api.user.Dto;
 
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "blog_memeber_table")
+
+//BlogMember에게 로그인 정보를 전달할 DTO
 @NoArgsConstructor
 @Getter
+@Data
 public class SignupRequestDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
     private String email;
 
     private String nickname;
 
-    private int password; // 실제로는 String 타입을 사용하고, 보안을 위해 암호화하는 것이 일반적입니다.
+    private int password; // 실제로는 String 타입을 사용하고, 보안을 위해 암호화하는 것이 나음.
 
     // 각 필드에 대한 getter 및 setter
     public String getEmail() {

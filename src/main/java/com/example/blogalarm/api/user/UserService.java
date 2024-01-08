@@ -12,14 +12,14 @@ public class UserService{
     private final UserRespository userRespository;
 
     @Transactional
-    public Long createUser(String email){
+    public String createUser(String email){
         User user=User.builder()
                 .email(email)
                 .build();
 
         userRespository.save(user);
         log.info("새로운 회원 저장 완료");
-        return user.id;
+        return user.email;
     }
     // 이메일로 사용자 검색
     public User findUserByEmail(String email) {

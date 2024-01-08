@@ -132,4 +132,7 @@
             return memberRepository.findOne(memberId);
         }
 
+        public void addEmailInfo(Member member,String userEmailInfo) {
+            member.setEmail(userEmailInfo);
+        }
     }

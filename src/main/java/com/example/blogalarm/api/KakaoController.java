@@ -5,6 +5,7 @@ import com.example.blogalarm.api.user.Dto.KakaoUserInfoResponse;
 import com.example.blogalarm.api.user.UserService;
 import com.example.blogalarm.api.utils.KakaoTokenJsonData;
 import com.example.blogalarm.api.utils.KakaoUserInfo;
+import com.example.blogalarm.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Description;
@@ -53,6 +54,7 @@ public class KakaoController {
     private final KakaoTokenJsonData kakaoTokenJsonData;
     private final KakaoUserInfo kakaoUserInfo;
 
+    private final MemberService memberService;
     private final UserService userService;
 
     @GetMapping("/index")
@@ -71,7 +73,9 @@ public class KakaoController {
         KakaoUserInfoResponse userInfo = kakaoUserInfo.getUserInfo(kakaoTokenResponse.getAccess_token());
         log.info("회원 정보 입니다.{}",userInfo);
 
-        userService.createUser(userInfo.getKakao_account().getEmail());
+        String  userEmailInfo = userService.createUser(userInfo.getKakao_account().getEmail());
+
+
 
 
 
