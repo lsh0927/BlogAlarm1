@@ -8,6 +8,7 @@ import com.example.blogalarm.api.utils.KakaoTokenJsonData;
 import com.example.blogalarm.api.utils.KakaoUserInfo;
 import com.example.blogalarm.domain.Member;
 import com.example.blogalarm.form.LoginForm;
+import com.example.blogalarm.repository.MemberRepositoryImpl;
 import com.example.blogalarm.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -20,6 +21,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 
 @RequiredArgsConstructor
 @Slf4j
@@ -27,13 +30,15 @@ import org.springframework.web.bind.annotation.*;
 
 public class LoginController {
 
+    private final MemberRepositoryImpl memberRepository;
     private final MemberService memberService;
     private final KakaoTokenJsonData kakaoTokenJsonData;
     private final KakaoUserInfo kakaoUserInfo;
     private final UserService userService;
 
 
-
+   @Autowired
+   private HttpSession session;
 
     // 로그인 폼으로 이동
     @GetMapping("/login")
@@ -46,15 +51,22 @@ public class LoginController {
     }
 
     // LoginController 클래스의 login 메서드
-    @PostMapping("/home")
-    public String login(@ModelAttribute LoginForm loginForm, HttpSession session, HttpServletRequest request) {
+    @PostMapping("/login")
+    public String login(@ModelAttribute LoginForm loginForm, HttpServletRequest request) {
+
+
         Member member = memberService.login(loginForm, request);
 
         if (member != null) {
             // 회원 정보가 일치하면 로그인 성공
+
+            session= request.getSession();
+
             session.setAttribute("loggedInMember", member);
             // TODO : /redirect:home2 와 그냥 home2는 뭐가 다른지?
 
+            log.info("세션정보입니다:"+String.valueOf(session));
+            log.info(session.getId());
             return  "/home2";
         } else {
             System.out.println("해당 회원 정보가 없습니다");
@@ -86,15 +98,16 @@ public class LoginController {
         log.info("회원 정보 입니다.{}",userInfo);
 
         String userEmail = userInfo.getKakao_account().getEmail();
-        HttpSession session = request.getSession();
-
+        //HttpSession session = request.getSession();
         log.info("세션 정보.",session.getId());
-        String currentNickname = (String) session.getAttribute("nickname");
-        Member currentMember = memberService.getMemberByNickname(currentNickname);
-        Long currentMemberId= currentMember.getId();
+
+        Member loggedInMember = (Member) session.getAttribute("loggedInMember");
+
+        Long currentMemberId= loggedInMember.getId();
 
 
-        if (currentMember != null) {
+
+        if (currentMemberId != null) {
             // Member 객체에 이메일 정보 업데이트
 
             memberService.updateEmail(currentMemberId, userEmail);
