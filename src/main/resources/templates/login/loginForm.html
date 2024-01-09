@@ -11,7 +11,7 @@
 
     <h1>로그인</h1>
 
-    <form method="post" th:action="@{/home}" th:object="${loginForm}">
+    <form method="post" th:action="@{/login}" th:object="${loginForm}">
         <div class="form-group">
             <label for="nickname">닉네임</label>
             <input type="text" id="nickname" th:field="*{nickname}" class="form-control" required />

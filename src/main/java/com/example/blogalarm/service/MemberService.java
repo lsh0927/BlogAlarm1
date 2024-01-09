@@ -44,21 +44,21 @@
             }
         }
 
-        @Transactional
-        public Long createMemberWithUserInfo(String email, String nickname, int password) {
-            // Member 객체 생성
-            Member member = new Member();
-            member.setNickname(nickname);
-            member.setPassword(password);
-            member.setEmail(email);
-
-            // 중복 회원 검증
-            validateDuplicateMember(member);
-
-            // 회원 저장
-            memberRepository.save(member);
-            return member.getId();
-        }
+//        @Transactional
+//        public Long createMemberWithUserInfo(String email, String nickname, int password) {
+//            // Member 객체 생성
+//            Member member = new Member();
+//            member.setNickname(nickname);
+//            member.setPassword(password);
+//            member.setEmail(email);
+//
+//            // 중복 회원 검증
+//            validateDuplicateMember(member);
+//
+//            // 회원 저장
+//            memberRepository.save(member);
+//            return member.getId();
+//        }
 
         //중복회원 검증
         private void validateDuplicateMember(Member member) {
@@ -101,50 +101,51 @@
 
             if (!members.isEmpty()) {
                 Member member = members.get();
+                System.out.println("memberid"+member.getId());
+                System.out.println("membername"+member.getNickname());
+                System.out.println("memberpw"+member.getPassword());
                 System.out.println("Found member: " + member);
 
-                if (Objects.equals(password, member.getPassword())) {
-                    // 로그인 성공 시 세션에 사용자 정보 저장
-                    HttpSession session = request.getSession(true);
-                    session.setAttribute("loggedInMember", member);
+
+
                     return member;
-                }
+
             }
 
             System.out.println("멤버가 없는데욤?");
             return null;
         }
 
-
-        public Member getLoggedInMember(HttpServletRequest request) {
-            HttpSession session = request.getSession(false); // 세션이 없으면 새로 생성하지 않음
-
-            if (session != null) {
-                Member loggedInMember = (Member) session.getAttribute("loggedInMember");
-                if (loggedInMember != null) {
-                    return loggedInMember;
-                }
-            }
-
-            return null; // 로그인되지 않은 상태
-        }
-
-        //닉네임으로 멤버 반환
-        public Member getMemberByNickname(String nickname) {
-            Optional<Member> members = memberRepository.findByUsername(nickname);
-
-            if (!members.isEmpty()) {
-                return members.get();
-            } else {
-                throw new RuntimeException("사용자를 찾을 수 없습니다: " + nickname);
-            }
-        }
-
-        public Member getMemberById(Long memberId) {
-            return memberRepository.findOne(memberId);
-        }
-
-        public void addEmailInfo(Member member,String userEmailInfo) {
-            member.setEmail(userEmailInfo);
-        }
+//
+//        public Member getLoggedInMember(HttpServletRequest request) {
+//            HttpSession session = request.getSession(false); // 세션이 없으면 새로 생성하지 않음
+//
+//            if (session != null) {
+//                Member loggedInMember = (Member) session.getAttribute("loggedInMember");
+//                if (loggedInMember != null) {
+//                    return loggedInMember;
+//                }
+//            }
+//
+//            return null; // 로그인되지 않은 상태
+//        }
+//
+//        //닉네임으로 멤버 반환
+//        public Member getMemberByNickname(String nickname) {
+//            Optional<Member> members = memberRepository.findByUsername(nickname);
+//
+//            if (!members.isEmpty()) {
+//                return members.get();
+//            } else {
+//                throw new RuntimeException("사용자를 찾을 수 없습니다: " + nickname);
+//            }
+//        }
+//
+//        public Member getMemberById(Long memberId) {
+//            return memberRepository.findOne(memberId);
+//        }
+//
+//        public void addEmailInfo(Member member,String userEmailInfo) {
+//            member.setEmail(userEmailInfo);
+//        }
     }
