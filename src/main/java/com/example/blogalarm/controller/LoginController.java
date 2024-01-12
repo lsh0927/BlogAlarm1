@@ -1,11 +1,10 @@
 package com.example.blogalarm.controller;
 
-import com.example.blogalarm.api.user.Dto.KakaoTokenResponse;
-import com.example.blogalarm.api.user.Dto.KakaoUserInfoResponse;
-import com.example.blogalarm.api.user.Dto.SignupRequestDto;
-import com.example.blogalarm.api.user.UserService;
-import com.example.blogalarm.api.utils.KakaoTokenJsonData;
-import com.example.blogalarm.api.utils.KakaoUserInfo;
+import com.example.blogalarm.social.kakao.user.Dto.KakaoTokenResponse;
+import com.example.blogalarm.social.kakao.user.Dto.KakaoUserInfoResponse;
+
+import com.example.blogalarm.social.kakao.utils.KakaoTokenJsonData;
+import com.example.blogalarm.social.kakao.utils.KakaoUserInfo;
 import com.example.blogalarm.domain.Member;
 import com.example.blogalarm.form.LoginForm;
 import com.example.blogalarm.repository.MemberRepositoryImpl;
@@ -13,15 +12,12 @@ import com.example.blogalarm.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Description;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -34,7 +30,6 @@ public class LoginController {
     private final MemberService memberService;
     private final KakaoTokenJsonData kakaoTokenJsonData;
     private final KakaoUserInfo kakaoUserInfo;
-    private final UserService userService;
 
 
    @Autowired
@@ -50,7 +45,7 @@ public class LoginController {
 
     }
 
-    // LoginController 클래스의 login 메서드
+    // LooginController 클래스의 login 메서드
     @PostMapping("/login")
     public String login(@ModelAttribute LoginForm loginForm, HttpServletRequest request) {
 
@@ -89,7 +84,7 @@ public class LoginController {
     @Description("회원이 소셜 로그인을 마치면 자동으로 실행되는 API입니다. 인가 코드를 이용해 토큰을 받고, 해당 토큰으로 사용자 정보를 조회합니다." +
             "사용자 정보를 이용하여 서비스에 회원가입합니다.")
     @GetMapping("/kakaocallback")
-    @ResponseBody
+   // @ResponseBody
     public String kakaoOauth(@RequestParam("code") String code,HttpServletRequest request) {
         log.info("인가 코드를 이용하여 토큰을 받습니다.");
         KakaoTokenResponse kakaoTokenResponse = kakaoTokenJsonData.getToken(code);
@@ -99,7 +94,7 @@ public class LoginController {
 
         String userEmail = userInfo.getKakao_account().getEmail();
         //HttpSession session = request.getSession();
-        log.info("세션 정보.",session.getId());
+//        log.info("세션 정보.",session.getId());
 
         Member loggedInMember = (Member) session.getAttribute("loggedInMember");
 
@@ -117,6 +112,7 @@ public class LoginController {
             log.error("현재 로그인한 사용자의 Member 객체를 찾을 수 없습니다.");
             return "현재 로그인한 사용자 정보를 찾을 수 없습니다.";
         }
-        return "okay";
+        return "/home2";
+        //redirect를 사용하기 위해선 @ResponseBody가 없어야함
     }
 }

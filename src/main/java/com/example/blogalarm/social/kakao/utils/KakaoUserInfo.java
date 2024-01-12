@@ -1,7 +1,7 @@
-package com.example.blogalarm.api.utils;
+package com.example.blogalarm.social.kakao.utils;
 
 
-import com.example.blogalarm.api.user.Dto.KakaoUserInfoResponse;
+import com.example.blogalarm.social.kakao.user.Dto.KakaoUserInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;

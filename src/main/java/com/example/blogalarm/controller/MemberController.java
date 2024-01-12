@@ -1,7 +1,7 @@
 package com.example.blogalarm.controller;
 
-import com.example.blogalarm.api.user.*;
-import com.example.blogalarm.api.user.Dto.SignupRequestDto;
+//import com.example.blogalarm.api.user.*;
+//import com.example.blogalarm.api.user.Dto.SignupRequestDto;
 import com.example.blogalarm.domain.Member;
 import com.example.blogalarm.form.MemberForm;
 import com.example.blogalarm.service.MemberService;
@@ -18,10 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
-    private final UserService userService;
-
-
-
+//    private final UserService userService;
 
 
     @GetMapping("/members/new")

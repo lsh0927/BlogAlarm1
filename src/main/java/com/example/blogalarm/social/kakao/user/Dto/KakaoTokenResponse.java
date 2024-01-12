@@ -1,4 +1,4 @@
-package com.example.blogalarm.api.user.Dto;
+package com.example.blogalarm.social.kakao.user.Dto;
 
 import lombok.Data;
 

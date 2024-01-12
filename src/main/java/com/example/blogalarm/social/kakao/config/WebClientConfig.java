@@ -1,4 +1,4 @@
-package com.example.blogalarm.api.config;
+package com.example.blogalarm.social.kakao.config;
 
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;

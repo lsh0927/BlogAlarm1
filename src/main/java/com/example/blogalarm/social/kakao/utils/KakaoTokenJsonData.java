@@ -1,6 +1,6 @@
-package com.example.blogalarm.api.utils;
+package com.example.blogalarm.social.kakao.utils;
 
-import com.example.blogalarm.api.user.Dto.KakaoTokenResponse;
+import com.example.blogalarm.social.kakao.user.Dto.KakaoTokenResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
