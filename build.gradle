@@ -51,7 +51,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 //naver
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 tasks.named('test') {
