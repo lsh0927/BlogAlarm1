@@ -37,7 +37,6 @@ public class Post {
     public void setMember(Member member) {
         this.member = member;
     }
-
     public Long getMemberId() {
         return member != null ? member.getId() : null;
     }

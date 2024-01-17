@@ -1,5 +1,6 @@
 package com.example.blogalarm.social.naver;
 
+import com.example.blogalarm.domain.Member;
 import org.springframework.beans.factory.annotation.Value;
 import com.example.blogalarm.social.naver.dto.NaverDTO;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,8 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class NaverService {
 
+    private Member member;
+
     @Value("${naver.client.id}")
     private String NAVER_CLIENT_ID;
 
@@ -35,13 +38,14 @@ public class NaverService {
     private final static  String NAVER_API_URI="https://openapi.naver.com";
 
 
-    public String getNaverLogin(){
-        return NAVER_AUTH_URI+ "/oauth2.0/authorize"
-                +"?client_id=" + NAVER_CLIENT_ID
-                + "&redirect_uri=" + NAVER_REDIRECT_URL
-                + "&response_type=code";
 
-    }
+//    public String getNaverLogin(){
+//        return NAVER_AUTH_URI+ "/oauth2.0/authorize"
+//                +"?client_id=" + NAVER_CLIENT_ID
+//                + "&redirect_uri=" + NAVER_REDIRECT_URL
+//                + "&response_type=code";
+//
+//    }
 
     public NaverDTO getNaverInfo(String code) throws Exception{
         if (code==null) throw new Exception("Failed get authorization code");
@@ -59,6 +63,9 @@ public class NaverService {
             params.add("client_secret", NAVER_CLIENT_SECRET);
             params.add("code",code);
             params.add("redirect_uri",NAVER_REDIRECT_URL);
+
+            //JSONParser를 이용하여 수동적으로 Json응답을 파싱하는데, 표준적이지 않은 JSON구조일때 유용할 수 잇음
+            //-> 응답 데이터를 원하는 방법으로 더 세밀하게 처리할 수 있음
 
             RestTemplate restTemplate= new RestTemplate();
             HttpEntity<MultiValueMap<String,String>> httpEntity= new HttpEntity<>(params,headers);
@@ -107,6 +114,8 @@ public class NaverService {
         String id= String.valueOf(account.get("id"));
         String email= String.valueOf(account.get("email"));
         String name= String.valueOf(account.get("name"));
+
+
 
         return NaverDTO.builder()
                 .id(id)
