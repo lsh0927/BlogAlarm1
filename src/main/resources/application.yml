@@ -10,6 +10,12 @@ spring:
       - classpath:/templates/
     suffix: .html
 
+  env:
+    google.client.id: ${{ secrets.GOOGLE_CLIENT_ID}}
+    google.client.pw: ${{ secrets.GOOGLE_CLIENT_PW}}
+    naver.client.id: ${{ secrets.NAVER_CLIENT_ID}}
+    naver.client.secret: ${{ secrets.NAVER_CLIENT_SECRET}}
+
 
   datasource:
     #
