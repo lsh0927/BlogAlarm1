@@ -1,6 +1,7 @@
 package com.example.blogalarm.social.naver;
 
 import com.example.blogalarm.domain.Member;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import com.example.blogalarm.social.naver.dto.NaverDTO;
 import lombok.RequiredArgsConstructor;
@@ -20,17 +21,18 @@ import org.springframework.web.client.RestTemplate;
 @Component
 @RequiredArgsConstructor
 @Service
+
 public class NaverService {
 
     private Member member;
 
-    @Value("${naver.client.id}")
+    @Value("${NAVER_CLIENT_ID}")
     private String NAVER_CLIENT_ID;
 
-    @Value("${naver.client.secret}")
+    @Value("${NAVER_CLIENT_SECRET}")
     private String NAVER_CLIENT_SECRET;
 
-    @Value("${naver.redirect.url}")
+    @Value("${NAVER_REDIRECT_URL}")
     private String NAVER_REDIRECT_URL;
 
 

@@ -3,7 +3,7 @@ spring:
     prefix:
       - classpath:/static/
       - classpath:/templates/members/
-      - classpath:/templates/fragments
+      - classpath:/templates/fragments/
       - classpath:/templates/login/
       - classpath:/templates/posts/
       - classpath:/templates/comments/
@@ -30,8 +30,9 @@ naver:
   client:
     id: ${NAVER_CLIENT_ID}
     secret: ${NAVER_CLIENT_SECRET}
-    url: http://localhost:8080/naver/callback
+    url: ${NAVER_REDIRECT_URL}
 
-logging.level:
-  org.hibernate.SQL: debug
-  org.hibernate.trace: trace
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.trace: trace

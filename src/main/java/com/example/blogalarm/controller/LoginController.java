@@ -135,9 +135,9 @@ public class LoginController {
     }
 
     //구글 앱에서 Oauth client 설정
-    @Value("${google.client.id}")
+    @Value("${GOOGLE_CLIENT_ID}")
     private String googleClientId;
-    @Value("${google.client.pw}")
+    @Value("${GOOGLE_CLIENT_PW}")
     private String googleClientPw;
 
     @RequestMapping(value="/api/v1/oauth2/google", method = RequestMethod.GET)
