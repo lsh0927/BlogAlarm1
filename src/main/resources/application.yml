@@ -1,4 +1,5 @@
 spring:
+  RESOURSE_PATH: ./BlogAlarm/src/main.resources/application.yml
   thymeleaf:
     prefix:
       - classpath:/static/
