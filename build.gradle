@@ -55,6 +55,9 @@ dependencies {
 
     //푸시알림을 위한 의존성 추가
     implementation('com.google.firebase:firebase-admin:9.1.1')
+
+    //민감한 정보 암호화
+    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
 }
 
 tasks.named('test') {
