@@ -24,13 +24,13 @@ public class NaverService {
 
     private Member member;
 
-    @Value("${naver_client_id}")
+    @Value("${naver.client.id}")
     private String NAVER_CLIENT_ID;
 
-    @Value("${naver_client_secret}")
+    @Value("${naver.client.secret}")
     private String NAVER_CLIENT_SECRET;
 
-    @Value("${naver_redirect_url}")
+    @Value("${naver.redirect.url}")
     private String NAVER_REDIRECT_URL;
 
 

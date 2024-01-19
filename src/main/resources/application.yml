@@ -1,5 +1,4 @@
 spring:
-  RESOURSE_PATH: ./BlogAlarm/src/main.resources/application.properties
   thymeleaf:
     prefix:
       - classpath:/static/
@@ -10,43 +9,29 @@ spring:
       - classpath:/templates/comments/
       - classpath:/templates/
     suffix: .html
-  steps:
-
-    google:
-      client:
-        id: ${765904047755-4ak1advmuoofv8r70tqhjmung32gkg4h.apps.googleusercontent.com}
-        pw: ${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}
-
-    naver:
-      client:
-        id: ${ey7_h9heuZavAoDqY15T}
-        secret: ${j85qdozn5m}
-        url: ${http://localhost:8080/naver/callback}
-    env:
-      google.client.id: ${{ secrets.GOOGLE_CLIENT_ID}}
-      google.client.pw: ${{ secrets.GOOGLE_CLIENT_PW}}
-      naver.client.id: ${{ secrets.NAVER_CLIENT_ID}}
-      naver.client.secret: ${{ secrets.NAVER_CLIENT_SECRET}}
-
-
   datasource:
-    #
-    url: ${jdbc:h2:tcp://localhost/~/BlogAlarm}
-    username: ${sa}
+    url: jdbc:h2:tcp://localhost/~/BlogAlarm
+    username: sa
     password:
     driver-class-name: org.h2.Driver
-
   jpa:
     hibernate:
       ddl-auto: create-drop
-    properties:
-      hibernate:
+      show_sql: true
+      format_sql: true
+      default_batch_fetch_size: 100
 
-        show_sql: true
-        format_sql: true
-        default_batch_fetch_size: 100
+google:
+  client:
+    id: ${GOOGLE_CLIENT_ID}
+    pw: ${GOOGLE_CLIENT_PW}
+
+naver:
+  client:
+    id: ${NAVER_CLIENT_ID}
+    secret: ${NAVER_CLIENT_SECRET}
+    url: http://localhost:8080/naver/callback
+
 logging.level:
   org.hibernate.SQL: debug
   org.hibernate.trace: trace
-# org.hibernate.type: trace #??? ?? 2.x, hibernate5
-# org.hibernate.orm.jdbc.bind: trace #??? ?? 3.x, hibernate6
