@@ -35,7 +35,7 @@ public class PostController {
     }
 
 
-        @GetMapping("/posts/{id}")
+    @GetMapping("/posts/{id}")
     public String viewPost(@PathVariable Long id, Model model) {
         Post post = postService.getPostById(id);
         model.addAttribute("post", post);
@@ -69,10 +69,8 @@ public class PostController {
             Post post = new Post();
             post.setMember(loggedInMember);
 
-
             post.setTitle(postForm.getTitle());
             post.setContent(postForm.getContent());
-
             post.setId(loggedInMember.getId());
 
             postService.savePost(post);
@@ -82,8 +80,6 @@ public class PostController {
             return "redirect:/login";
         }
     }
-
-
 
     @GetMapping("/posts/edit/{id}")
     public String editPostForm(@PathVariable Long id, Model model) {

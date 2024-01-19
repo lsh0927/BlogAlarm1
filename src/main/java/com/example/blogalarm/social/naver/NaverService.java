@@ -99,6 +99,8 @@ public class NaverService {
 
         RestTemplate rt= new RestTemplate();
         HttpEntity<MultiValueMap<String,String>> httpEntity= new HttpEntity<>(headers);
+
+
         ResponseEntity<String> response= rt.exchange(
                 NAVER_API_URI+"/v1/nid/me",
                 HttpMethod.POST,

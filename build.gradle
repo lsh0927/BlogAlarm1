@@ -52,6 +52,9 @@ dependencies {
 //naver
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+    //푸시알림을 위한 의존성 추가
+    implementation('com.google.firebase:firebase-admin:9.1.1')
 }
 
 tasks.named('test') {

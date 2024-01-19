@@ -154,12 +154,15 @@ public class LoginController {
                 .redirectUri("http://localhost:8080/api/v1/oauth2/google")
                 .grantType("authorization_code").build();
 
+        //
         ResponseEntity<GoogleResponse> resultEntity = restTemplate.postForEntity("https://oauth2.googleapis.com/token",
                 googleOAuthRequestParam, GoogleResponse.class);
 
         String jwtToken=resultEntity.getBody().getId_token();
         Map<String, String> map=new HashMap<>();
         map.put("id_token",jwtToken);
+
+        //
 
         ResponseEntity<GoogleInfResponse> resultEntity2 = restTemplate.postForEntity("https://oauth2.googleapis.com/tokeninfo",
                 map, GoogleInfResponse.class);
@@ -180,8 +183,6 @@ public class LoginController {
         @RequestMapping-> Value="code" String authCode는
          Oauth 인증과정에서 구글로부터 받은 code 매개변수, HttpSession은 브라우저에 저장된 회원의 세션을 뜻함
         */
-
-
 
         //RestTemplate의 역할?
          /*
