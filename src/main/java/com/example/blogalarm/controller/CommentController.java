@@ -43,11 +43,21 @@ public class CommentController {
         return "comments/CommentList"; // 댓글 상세 정보를 보여줄 템플릿 이름
     }
 
+//    @GetMapping("/comments/create")
+//    public String createCommentForm(Model model) {
+//        model.addAttribute("commentForm", new CommentForm());
+//        return "comments/createCommentForm";
+//    }
+
+    //현재 createCommentForm에서, 댓글을 다는 유저가 포스트를 입력해 찾아야하는 로직 수정
     @GetMapping("/comments/create")
     public String createCommentForm(Model model) {
+        List<Post> posts = postService.getAllPosts(); // 모든 포스트를 가져옴
+        model.addAttribute("posts", posts); // 모델에 포스트 목록 추가
         model.addAttribute("commentForm", new CommentForm());
         return "comments/createCommentForm";
     }
+
 
     @PostMapping("/comments/create")
     // TODO: session에서 로그인한 멤버 ID를 가져오기
@@ -68,8 +78,9 @@ public class CommentController {
         // Comment와 Post를 연결
         Post post = postService.getPostById(commentForm.getPostId());
         comment.setPost(post);
-
         commentService.saveComment(comment);
+
+
         return "redirect:/comments";
     }
 
