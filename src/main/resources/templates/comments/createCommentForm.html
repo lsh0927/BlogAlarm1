@@ -59,7 +59,7 @@
             <select th:field="*{postId}">
                 <option value="">-- 포스트 선택 --</option>
                 <th:block th:each="post : ${posts}">
-                    <option th:value="${post.id}" th:text="${post.member.name} + ' - ' + ${post.title}"></option>
+                    <option th:value="${post.id}" th:text="${post.member.nickname} + ' - ' + ${post.title}"></option>
                 </th:block>
             </select>
         </div>
