@@ -2,15 +2,17 @@ package com.example.blogalarm.jwt;
 
 import com.example.blogalarm.domain.Member;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+
+@Getter
 @Entity
 @Setter
-@Getter
 public class MemberToken {
     // 명시적으로 생성자 추가
     public MemberToken() {

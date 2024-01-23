@@ -4,10 +4,15 @@ import com.example.blogalarm.domain.Comment;
 import com.example.blogalarm.domain.Member;
 import com.example.blogalarm.domain.Post;
 import com.example.blogalarm.form.CommentForm;
+import com.example.blogalarm.jwt.MemberToken;
+import com.example.blogalarm.jwt.MemberTokenRepository;
+import com.example.blogalarm.jwt.MemberTokenService;
 import com.example.blogalarm.repository.MemberRepository;
 import com.example.blogalarm.service.CommentService;
+import com.example.blogalarm.service.CommentServiceImpl;
 import com.example.blogalarm.service.MemberService;
 import com.example.blogalarm.service.PostService;
+import com.example.blogalarm.social.service.KakaoService;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -19,16 +24,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
 public class CommentController {
 
     private final PostService postService;
-    private final CommentService commentService;
-    private final MemberService memberService;
-    private final MemberRepository memberRepository;
-
+    private final CommentServiceImpl commentService;
+    private final KakaoService kakaoService;
+    private final MemberTokenRepository memberTokenRepository;
     @GetMapping("/comments")
     public String getAllComments(Model model) {
         List<Comment> comments = commentService.getAllComments();
@@ -68,6 +73,9 @@ public class CommentController {
         Member member = (Member) session.getAttribute("loggedInMember");
         System.out.println("Member : " +member.getNickname());
 
+
+
+
        // Member member= memberRepository.findById(Long.valueOf(id)).orElseThrow(null);
         // TODO: Optional의 사용법과 쓰는 이유
         comment.setMember(member);
@@ -83,11 +91,31 @@ public class CommentController {
         }
 
 
+        //포스트의 주인
+        Long SendUserId= postId;
         Post post = postService.getPostById(postId);
+
+
+        String message = "새로운 댓글이 달렸습니다! " +
+                "포스트: " + post.getTitle() +
+                ", 작성자: " + comment.getMember().getNickname()+
+                ", 내용: " + commentForm.getText();
+//
+        Optional<MemberToken> memberToken=memberTokenRepository.findByMemberId(SendUserId);
+        String accessToken= memberToken.get().getAccessToken();
+        System.out.println(accessToken);
+
+        kakaoService.sendKakaoMessage(accessToken,message);
+
+
+//        Post post = postService.getPostById(postId);
 
 
         comment.setPost(post);
         commentService.saveComment(comment);
+
+
+
         return "redirect:/comments";
     }
 

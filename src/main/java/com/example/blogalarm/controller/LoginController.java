@@ -9,7 +9,6 @@ import com.example.blogalarm.social.kakao.utils.KakaoTokenJsonData;
 import com.example.blogalarm.social.kakao.utils.KakaoUserInfo;
 import com.example.blogalarm.domain.Member;
 import com.example.blogalarm.form.LoginForm;
-import com.example.blogalarm.repository.MemberRepositoryImpl;
 import com.example.blogalarm.service.MemberService;
 import com.example.blogalarm.social.naver.NaverService;
 import com.example.blogalarm.social.naver.dto.NaverDTO;
