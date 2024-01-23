@@ -105,9 +105,6 @@
                 System.out.println("membername"+member.getNickname());
                 System.out.println("memberpw"+member.getPassword());
                 System.out.println("Found member: " + member);
-
-
-
                     return member;
 
             }

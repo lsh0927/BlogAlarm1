@@ -1,4 +1,5 @@
 package com.example.blogalarm.controller;
+import com.example.blogalarm.jwt.MemberTokenService;
 import com.example.blogalarm.social.google.GoogleInfResponse;
 import com.example.blogalarm.social.google.GoogleRequest;
 import com.example.blogalarm.social.google.GoogleResponse;
@@ -12,6 +13,7 @@ import com.example.blogalarm.repository.MemberRepositoryImpl;
 import com.example.blogalarm.service.MemberService;
 import com.example.blogalarm.social.naver.NaverService;
 import com.example.blogalarm.social.naver.dto.NaverDTO;
+//import com.example.blogalarm.social.redis.RedisService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +40,7 @@ public class LoginController {
     private final KakaoTokenJsonData kakaoTokenJsonData;
     private final KakaoUserInfo kakaoUserInfo;
     private final NaverService naverService;
+    private final MemberTokenService memberTokenService;
 
    @Autowired
    private HttpSession session;
@@ -65,7 +68,8 @@ public class LoginController {
             log.info("세션정보입니다:"+String.valueOf(session));
             log.info(session.getId());
             return  "/home2";
-        } else {
+        }
+        else {
             System.out.println("해당 회원 정보가 없습니다");
             return "login/loginForm";
         }
@@ -87,15 +91,17 @@ public class LoginController {
         KakaoUserInfoResponse userInfo = kakaoUserInfo.getUserInfo(kakaoTokenResponse.getAccess_token());
         String userEmail = userInfo.getKakao_account().getEmail();
 
-        /*
-        밑의 두 방식과 다르게, webClient 방식을 이용하여 데이터를 받아옴.
-         */
-
         Member loggedInMember = (Member) session.getAttribute("loggedInMember");
         Long currentMemberId= loggedInMember.getId();
+
         if (currentMemberId != null) {
             // Member 객체에 이메일 정보 업데이트
             memberService.updateEmail(currentMemberId, userEmail);
+           // redisService.saveAccessToken(currentMemberId, kakaoTokenResponse.getAccess_token());
+
+            //토큰 정보 저장 또는 업데이트
+            memberTokenService.saveOrUpdateMemberToken(currentMemberId,kakaoTokenResponse);
+
         } else {
             return "현재 로그인한 사용자 정보를 찾을 수 없습니다.";
         }

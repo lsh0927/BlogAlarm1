@@ -17,6 +17,9 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
 
+
+
+
     @Autowired
     public CommentServiceImpl(CommentRepository commentRepository, ApplicationEventPublisher eventPublisher) {
         this.commentRepository = commentRepository;
@@ -42,29 +45,28 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findById(id).orElse(null);
     }
 
-    //댓글 저장
-//    @Override
-//    public void saveComment(Comment comment) {
-//        commentRepository.save(comment);
-//    }
+ //   댓글 저장
     @Override
     public void saveComment(Comment comment) {
-        commentRepository.save(comment); // 댓글 저장
-
-        // 댓글이 달린 포스트의 작성자 정보를 가져옴
-        Post post = comment.getPost();
-        if (post != null) {
-            Member postAuthor = post.getMember();
-
-            if (postAuthor!=null){
-                log.info("Post Author Email: " + postAuthor.getEmail() + ", Nickname: " + postAuthor.getNickname());
-            // 카카오톡 메시지 전송 로직 호출 (예시)
-                 sendKakaoMessage(postAuthor);
-            }
-        }
+        commentRepository.save(comment);
     }
-
-    private void sendKakaoMessage(Member member) {
+//    @Override
+//    public void saveComment(Comment comment) {
+//        commentRepository.save(comment); // 댓글 저장
+//
+//        Post post = comment.getPost();
+//        if (post != null) {
+//            Member postAuthor = post.getMember();
+//            if (postAuthor != null) {
+//                String accessToken = redisService.getAccessToken(postAuthor.getId());
+//                log.info(accessToken);
+//                if (accessToken != null) {
+//                    sendKakaoMessage(postAuthor, accessToken);
+//                }
+//            }
+//        }
+//    }
+    private void sendKakaoMessage(Member member, String accessToken) {
         // 카카오톡 메시지 전송 로직 구현
         // 여기서 member 객체의 정보(예: 이메일, 카카오톡 ID)와 엑세스 토큰을 사용
     }

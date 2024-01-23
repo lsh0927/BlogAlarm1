@@ -70,4 +70,9 @@ public class PostServiceImpl implements PostService {
     public List<Post> getAllPostsWithComments() {
         return postRepository.findAllWithComments();
     }
+
+
+    public void sendMessageToUser(){
+
+    }
 }

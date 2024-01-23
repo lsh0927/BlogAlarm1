@@ -66,7 +66,7 @@ public class CommentController {
         Comment comment = new Comment();
         comment.setText(commentForm.getText());
         Member member = (Member) session.getAttribute("loggedInMember");
-        System.out.println("Member : " +member);
+        System.out.println("Member : " +member.getNickname());
 
        // Member member= memberRepository.findById(Long.valueOf(id)).orElseThrow(null);
         // TODO: Optional의 사용법과 쓰는 이유

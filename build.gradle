@@ -58,6 +58,20 @@ dependencies {
 
     //민감한 정보 암호화
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
+
+    //엑세스 토큰을 관리하기 위해 Redis 의존성 추가
+//    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+//    implementation 'org.springframework.session:spring-session-core'
+//    // Spring Boot Starter for Redis
+//    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+//
+//    // Spring Session Data Redis
+//    implementation 'org.springframework.session:spring-session-data-redis'
+//
+//    // Lettuce (Redis 클라이언트)
+//    implementation 'io.lettuce:lettuce-core'
+
+
 }
 
 tasks.named('test') {
