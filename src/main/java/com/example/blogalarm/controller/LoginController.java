@@ -44,6 +44,23 @@ public class LoginController {
    @Autowired
    private HttpSession session;
 
+    @Value("${KakaoRestApiKey}")
+    private String KakaoRestApiKey;
+    @Value("${KakaoRedirectUrl}")
+    private String KakaoRedirectUrl;
+
+    @Value("${NAVER_CLIENT_ID}")
+    private String naverCLientId;
+    @Value("${NaverRedirectUrl}")
+    private String naverRedirectUrl;
+
+    @Value("${GOOGLE_CLIENT_ID}")
+    private String googleClientId;
+    @Value("${GOOGLE_CLIENT_PW}")
+    private String googleClientPw;
+    @Value("${GoogleRedirectUrl}")
+    private String googleRedirectUrl;
+
     // 로그인 폼으로 이동
     @GetMapping("/login")
     public String loginForm(Model model) {
@@ -77,6 +94,18 @@ public class LoginController {
     public String page(Model model) {
         return "home2"; // 로그인 폼 템플릿 이름
     }
+
+
+    @GetMapping("/login/kakao")
+    public String requestKakaoLogin(){
+        String clientId= KakaoRestApiKey;
+        String redirectUrl= KakaoRedirectUrl;
+
+        return "redirect:http://kauth.kakao.com/oauth/authorize?response_type=code&client_id="
+                +KakaoRestApiKey+"&redirect_uri="+KakaoRedirectUrl;
+    }
+
+
 
 
     @Description("회원이 소셜 로그인을 마치면 자동으로 실행되는 API입니다. 인가 코드를 이용해 토큰을 받고, 해당 토큰으로 사용자 정보를 조회합니다." +
@@ -122,6 +151,15 @@ public class LoginController {
 
     }
 
+    @GetMapping("/login/naver")
+    public String requestNaverLogin(){
+        String clientId= naverCLientId;
+        String redirectUrl= naverRedirectUrl;
+
+        return "redirect:http://nid.naver.com/oauth2.0/authorize?client_id="+naverCLientId+"&redirect_uri="+naverRedirectUrl;
+    }
+
+
     @GetMapping("/naver/callback")
     public String callback(HttpServletRequest request) throws Exception{
         NaverDTO naverInfo = naverService.getNaverInfo(request.getParameter("code"));
@@ -139,11 +177,17 @@ public class LoginController {
         return "/home2";
     }
 
-    //구글 앱에서 Oauth client 설정
-    @Value("${GOOGLE_CLIENT_ID}")
-    private String googleClientId;
-    @Value("${GOOGLE_CLIENT_PW}")
-    private String googleClientPw;
+
+
+    @GetMapping("/login/google")
+    public String requestGoogleLogin(){
+        String clientId= googleClientId;
+        String redirectUrl= googleRedirectUrl;
+
+        return "redirect:https://accounts.google.com/o/oauth2/v2/auth?client_id="+googleClientId+"&redirect_uri="+googleRedirectUrl+"&response_type=code&scope=email%20profile%20openid&access_type=offline";
+
+    }
+
 
     @RequestMapping(value="/api/v1/oauth2/google", method = RequestMethod.GET)
     public String loginGoogle(@RequestParam(value = "code") String authCode,HttpSession session){
