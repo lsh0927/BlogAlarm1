@@ -46,7 +46,7 @@ dependencies {
     implementation "io.jsonwebtoken:jjwt-api:0.11.2"
     implementation "io.jsonwebtoken:jjwt-impl:0.11.2"
     implementation "io.jsonwebtoken:jjwt-jackson:0.11.2"
-
+    implementation 'mysql:mysql-connector-java:8.0.19'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 //naver
@@ -55,6 +55,8 @@ dependencies {
 
     //푸시알림을 위한 의존성 추가
     implementation('com.google.firebase:firebase-admin:9.1.1')
+    //aws mysql 사용을 위한 의존성 추가
+    implementation 'mysql:mysql-connector-java'
 
     //민감한 정보 암호화
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'

@@ -10,11 +10,12 @@ spring:
       - classpath:/templates/comments/
       - classpath:/templates/
     suffix: .html
-  datasource:
-    url: ${DATABASE_URL}
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+#  datasource:
+#    url: ${DATABASE_URL}
+#  mysql url 삽입
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
 
 
   jpa:
